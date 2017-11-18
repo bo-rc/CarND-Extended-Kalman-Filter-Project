@@ -44,6 +44,9 @@ private:
   Eigen::MatrixXd R_radar_;
   Eigen::MatrixXd H_laser_;
   Eigen::MatrixXd Hj_;
+  double PI = 3.141592653589793;
+
+  double _convert_phi(const double & phi);
 };
 
 #endif /* FusionEKF_H_ */

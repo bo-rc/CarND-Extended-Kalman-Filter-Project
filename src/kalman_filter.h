@@ -20,8 +20,14 @@ public:
   // measurement matrix
   Eigen::MatrixXd H_;
 
-  // measurement covariance matrix
-  Eigen::MatrixXd R_;
+  // measurement Jacobian
+  Eigen::MatrixXd Hj_;
+
+  // measurement covariance matrix for laser
+  Eigen::MatrixXd R_laser_;
+
+  // measurement covariance matrix for radar
+  Eigen::MatrixXd R_radar_;
 
   /**
    * Constructor
@@ -43,7 +49,8 @@ public:
    * @param Q_in Process covariance matrix
    */
   void Init(Eigen::VectorXd &x_in, Eigen::MatrixXd &P_in, Eigen::MatrixXd &F_in,
-      Eigen::MatrixXd &H_in, Eigen::MatrixXd &R_in, Eigen::MatrixXd &Q_in);
+      Eigen::MatrixXd &H_in, Eigen::MatrixXd &Hj_in, Eigen::MatrixXd &R_laser_in,
+	    Eigen::MatrixXd &R_radar_in, Eigen::MatrixXd &Q_in);
 
   /**
    * Prediction Predicts the state and the state covariance
@@ -64,6 +71,8 @@ public:
    */
   void UpdateEKF(const Eigen::VectorXd &z);
 
+private:
+  double PI = 3.141592653589793;
 };
 
 #endif /* KALMAN_FILTER_H_ */

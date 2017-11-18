@@ -1,3 +1,7 @@
+# QtCreator files
+*.user
+# temp files by vi
+*.swp
 # silly macOS
 .DS_Store
 
