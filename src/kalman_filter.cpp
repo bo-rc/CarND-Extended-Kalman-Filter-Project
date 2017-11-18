@@ -94,14 +94,19 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
     VectorXd y = z - z_pred;
 
-    // this handles discontinuity of phi at -PI/PI transition.
-    if (fabs(y[1]) > PI) {
-	if (z[1] > 0) {
-	    y[1] = -(2*PI - fabs(y[1])); // clock-wise difference
-	} else {
-	    y[1] = (2*PI - fabs(y[1])); // counter clock-wise difference
-	}
-    }
+    // normalize phi difference to [-PI, PI]
+    while (y[1] > PI) y[1] -= 2.*PI;
+    while (y[1] < -PI) y[1] += 2.*PI;
+
+    // same as above, which is more elegant.
+//    // this handles discontinuity of phi at -PI/PI transition.
+//    if (fabs(y[1]) > PI) {
+//	if (z[1] > 0) {
+//	    y[1] = -(2*PI - fabs(y[1])); // clock-wise difference
+//	} else {
+//	    y[1] = (2*PI - fabs(y[1])); // counter clock-wise difference
+//	}
+//    }
 
     MatrixXd Hjt = Hj_.transpose();
     MatrixXd S = Hj_ * P_ * Hjt + R_radar_;
